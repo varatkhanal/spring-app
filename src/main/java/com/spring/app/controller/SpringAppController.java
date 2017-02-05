@@ -1,15 +1,14 @@
 package com.spring.app.controller;
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -65,18 +64,29 @@ public class SpringAppController {
         return new ResponseEntity<List<Districts>>(dist, HttpStatus.OK);
     }
 	
-	/*@SuppressWarnings("unchecked")
-	@RequestMapping(value="/spring-app/Both",
+	
+	/*@RequestMapping(value="/spring-app/Both",
 			method=RequestMethod.GET,
 			produces=MediaType.APPLICATION_JSON_VALUE)
-			public ResponseEntity<List<String>> findBoth() {
-			 List<Zones>  zon = zoneServices.findAll();
-			 List<Districts>   dist = districtsServices.findAll();
-				
-		     
-		       
-		        return new ResponseEntity<ArrayList<String>>(list, HttpStatus.OK);
-		    }*/
+	protected Model getBoth(Model model) {
+		 List<Zones>  zon = zoneServices.findAll();
+		 List<Districts>   dist = districtsServices.findAll();
+		
+	    ObjectMapper objMapper = new ObjectMapper();
+	    String zonJson = null;
+	    String distJson = null;
+		try {
+			zonJson = objMapper.writeValueAsString(zon);
+			distJson = objMapper.writeValueAsString(dist); 
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+	      
+	    model.addAttribute("zonJson",zonJson);
+	    model.addAttribute("distJson",distJson);
+
+	    return model;
+	}*/
 	
 
 }
